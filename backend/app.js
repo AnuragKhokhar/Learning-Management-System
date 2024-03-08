@@ -5,6 +5,7 @@ import { config } from 'dotenv';
 import morgan from 'morgan';
 import userRoutes from './routes/userRoutes.js';
 import coursesRoutes from './routes/courses.routes.js'
+import miscRoutes from './routes/miscellaneous.routes.js'
 import errorMiddleware from './middlewares/error.middleware.js';
 config();
 import paymentRoutes from './routes/payment.routes.js'
@@ -24,11 +25,12 @@ app.use('/ping', function(req, res){
     res.send('pong');
 }); 
 
-//routes of 3 moudles
+//routes of 4 moudles
 
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/courses', coursesRoutes);
 app.use('/api/v1/payments', paymentRoutes);
+app.use('/api/v1', miscRoutes)
 
 app.all('*', (req, res)=>{
     res.status(400).send('OOPS!! 404 page not found');

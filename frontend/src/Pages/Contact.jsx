@@ -33,7 +33,7 @@ function Contact(){
         }
 
         try{
-            const res = axiosInstance.post("/contact", userInput);
+            const res = axiosInstance.post("https://learning-management-system-w6jc.onrender.com/api/v1/contact", userInput);
             console.log(res);
             toast.promise(res,{
                 loading: "Submitting your message...",

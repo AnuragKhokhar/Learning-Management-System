@@ -6,7 +6,7 @@ import upload from '../middlewares/multer.middleware.js'
 const router = Router();
 
 router.route('/')
-    .get(getAllCourses)
+    .get(isLoggedIn, getAllCourses)
     .post(
         isLoggedIn,
         authorizedRoles('ADMIN'),

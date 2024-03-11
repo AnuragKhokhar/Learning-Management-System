@@ -7,16 +7,17 @@ const initialState = {
     courseData: []
 }
 
-export const getAllCourses = createAsyncThunk("/course/get", async () => {
+export const getAllCourses = createAsyncThunk("/courses/get", async () => {
     try {
-        const response = axiosInstance.get("https://learning-management-system-w6jc.onrender.com/api/v1/courses");
+        const response = await axiosInstance.get("courses");
+        console.log(response);
         toast.promise(response, {
             loading: "loading course data...",
             success: "Courses loaded successfully",
             error: "Failed to get the courses",
         });
 
-        return (await response).data.courses;
+        return response.data.courses;
     } catch(error) {
         toast.error(error?.response?.data?.message);
     }
@@ -31,7 +32,7 @@ export const createNewCourse = createAsyncThunk("/course/create", async (data) =
         formData.append("createdBy", data?.createdBy);
         formData.append("thumbnail", data?.thumbnail);
         
-        const response = axiosInstance.post("https://learning-management-system-w6jc.onrender.com/api/v1/courses", formData);
+        const response = axiosInstance.post("courses", formData);
         toast.promise(response, {
             loading: "Creating new Course",
             success: "Course created successfully",

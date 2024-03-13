@@ -2,23 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-hot-toast";
 
 import axiosInstance from "../../Helpers/axiosInstance"
-
-const dataFromLocalStorage = localStorage.getItem('data');
-let parsedData;
-
-try {
-    parsedData = dataFromLocalStorage ? JSON.parse(dataFromLocalStorage) : {};
-} catch (error) {
-    console.error('Error parsing data from localStorage:', error);
-    parsedData = {}; // Provide a default value if parsing fails
-}
-
 const initialState = {
-    isLoggedIn: localStorage.getItem('isLoggedIn') === 'true', // Convert to boolean
+    isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     role: localStorage.getItem('role') || "",
-    data: parsedData
+    //data: localStorage.getItem('data') != undefined ? JSON.parse(localStorage.getItem('data')) : {}
 };
-
 
 export const createAccount = createAsyncThunk("/auth/signup", async (data) => {
     try {

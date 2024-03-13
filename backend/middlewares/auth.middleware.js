@@ -13,7 +13,7 @@ const isLoggedIn = asyncHandler(async (req, _res, next) => {
   }
 
 
-  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  const decoded = await jwt.verify(token, process.env.SECRET);
 
   if (!decoded) {
     return next(new AppError("Unauthorized, please login to continue", 401));

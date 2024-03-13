@@ -18,7 +18,7 @@ const userSchema = new Schema({
         required: [true, 'Email is required'],
         lowercase:true,
         trim: true,
-        unqiue: true,
+        unique: true,
         match: [
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
             'Please fill in a valid email address'
@@ -58,33 +58,41 @@ const userSchema = new Schema({
     timestamps:true
 });
 
-userSchema.pre('save', async function(next){
-   if(!this.isModified('password')) {
-      return next();
+userSchema.pre('save', async function (next) {
+   if (!this.isModified('password')) {
+       return next();
    }
-   this.password = await bcrypt.hash(this.password, 10);
-   return next();
-
-})
+   try {
+       this.password = await bcrypt.hash(this.password, 10);
+       return next();
+   } catch (error) {
+       return next(error);
+   }
+});
 
 userSchema.methods = {
    generateJWTToken : async function(){
-      return await jwt.sign(
-         {id:this._id, email: this.email, subscription : this.subscription,
-         role:this.role},
-         process.env.SECRET,
-         {
-            expiresIn: '24h'
-         }
-      )
+      try {
+         return await jwt.sign(
+             { id: this._id, email: this.email, subscription: this.subscription, role: this.role },
+             process.env.SECRET,
+             { expiresIn: '24h' }
+         );
+     } catch (error) {
+         throw new Error('Failed to generate JWT token');
+     }
    },
-   generatePasswordResetToken: async function (){
-      const resetToken = crypto.randomBytes(20).toString('hex');
-      
-      this.forgetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-      this.forgetPasswordExpiry = Date.now()+ 15*60*1000;  //15 mins from now
 
-      return resetToken;
+
+   generatePasswordResetToken: async function (){
+      try {
+         const resetToken = crypto.randomBytes(20).toString('hex');
+         this.forgetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+         this.forgetPasswordExpiry = Date.now() + 15 * 60 * 1000; // 15 mins from now
+         return resetToken;
+     } catch (error) {
+         throw new Error('Failed to generate password reset token');
+     }
    }
 }
 

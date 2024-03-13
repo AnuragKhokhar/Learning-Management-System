@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 import AppError from "../utils/AppError.js";
 import asyncHandler from "./asyncHandler.middleware.js";
+import User from "../models/user.models.js";
 
 export const isLoggedIn = asyncHandler(async (req, _res, next) => {
   // extracting token from the cookies

@@ -3,7 +3,7 @@ import connectionToDB from './config/dbConnection.js';
 import cloudinary from 'cloudinary';
 import Razorpay from 'razorpay';
 
-const PORT = process.env.PORT || 5014;
+const PORT = process.env.PORT || 80;
 
 //Cloudinary configuration
 cloudinary.v2.config({

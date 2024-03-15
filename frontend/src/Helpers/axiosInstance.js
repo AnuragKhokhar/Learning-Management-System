@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://web-2yd20ah8hloe.up-sg-sin1-1.apps.prod.run-on-seenode.com/api/v1";
+const BASE_URL = "https://learning-management-system-w6jc.onrender.com/api/v1";
 
 const axiosInstance = axios.create();
 

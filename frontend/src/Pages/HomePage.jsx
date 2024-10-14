@@ -1,21 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react"; // For managing the authentication state (or get from Redux/Context)
+import { useSelector } from "react-redux"; // For getting the authentication state from Redux
 import HomePageImage from "../Assets/Images/homePageMainImage.png";
 import HomeLayout from "../Layouts/HomeLayout";
 
 function HomePage() {
     const navigate = useNavigate();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Simulate checking if the user is logged in (for example, from local storage)
-    useEffect(() => {
-        const token = localStorage.getItem('authToken');
-        if (token) {
-            setIsAuthenticated(true);
-        } else {
-            setIsAuthenticated(false);
-        }
-    }, []);
+    // Get authentication state from Redux (or Context)
+    const isAuthenticated = useSelector((state) => state.auth.isLoggedIn);
 
     const handleExploreCourses = () => {
         if (isAuthenticated) {

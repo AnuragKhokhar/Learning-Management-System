@@ -1,9 +1,30 @@
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"; // For managing the authentication state (or get from Redux/Context)
 import HomePageImage from "../Assets/Images/homePageMainImage.png";
 import HomeLayout from "../Layouts/HomeLayout";
 
 function HomePage() {
+    const navigate = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    // Simulate checking if the user is logged in (for example, from local storage)
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            setIsAuthenticated(true);
+        } else {
+            setIsAuthenticated(false);
+        }
+    }, []);
+
+    const handleExploreCourses = () => {
+        if (isAuthenticated) {
+            navigate("/courses");  // If the user is authenticated, go to the courses page
+        } else {
+            navigate("/login");    // Otherwise, redirect to the login page
+        }
+    };
+
     return (
         <HomeLayout>
             <div className="pt-10 text-white flex items-center justify-center gap-10 mx-16 h-[90vh]">
@@ -19,11 +40,12 @@ function HomePage() {
                     </p>
 
                     <div className="space-x-6">
-                        <Link to="/courses">
-                            <button className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:bg-yellow-600 transition-all ease-in-out duration-300">
-                                Explore courses
-                            </button>
-                        </Link>
+                        <button
+                            onClick={handleExploreCourses}
+                            className="bg-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:bg-yellow-600 transition-all ease-in-out duration-300"
+                        >
+                            Explore courses
+                        </button>
 
                         <Link to="/contact">
                             <button className="border border-yellow-500 px-5 py-3 rounded-md font-semibold text-lg cursor-pointer hover:bg-yellow-600 transition-all ease-in-out duration-300">
@@ -36,7 +58,6 @@ function HomePage() {
                 <div className="w-1/2 flex items-center justify-center">
                     <img alt="homepage image" src={HomePageImage} />
                 </div>
-
             </div>
         </HomeLayout>
     );

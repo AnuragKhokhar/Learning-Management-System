@@ -58,7 +58,7 @@ function Login(){
                             required
                             name='email'
                             id='email'
-                            placeholder='Enter your email...'
+                            placeholder='use anurag@gmail.com to login as admin'
                             className='bg-transparent px-2 py-1 border'
                             onChange={handleUserInput}
                             value={loginData.email}
@@ -70,7 +70,7 @@ function Login(){
                             required
                             name='password'
                             id='password'
-                            placeholder='Enter your Password...'
+                            placeholder='use password@123 to login as admin'
                             className='bg-transparent px-2 py-1 border'
                             onChange={handleUserInput}
                             value={loginData.password}

@@ -1,5 +1,5 @@
-import {AiFillCloseCircle} from 'react-icons/ai';
-import {FiMenu} from 'react-icons/fi';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { FiMenu } from 'react-icons/fi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -14,7 +14,7 @@ function HomeLayout({ children }) {
     // for checking if user is logged in
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
 
-    // for displaying the options acc to role
+    // for displaying the options according to role
     const role = useSelector((state) => state?.auth?.role);
 
     function changeWidth() {
@@ -34,10 +34,18 @@ function HomeLayout({ children }) {
         e.preventDefault();
 
         const res = await dispatch(logout());
-        if(res?.payload?.success){
+        if (res?.payload?.success) {
             navigate("/");
         }
-            
+    }
+
+    function handleCourseClick(e) {
+        e.preventDefault();
+        if (isLoggedIn) {
+            navigate("/courses");  // If the user is authenticated, go to the courses page
+        } else {
+            navigate("/login");    // If not, redirect to the login page
+        }
     }
 
     return (
@@ -68,18 +76,20 @@ function HomeLayout({ children }) {
 
                         {isLoggedIn && role === 'ADMIN' && (
                             <li>
-                                <Link to="/admin/dashboard"> Admin DashBoard</Link>
+                                <Link to="/admin/dashboard">Admin Dashboard</Link>
                             </li>
                         )}
                         
                         {isLoggedIn && role === 'ADMIN' && (
                             <li>
-                                <Link to="/course/create"> Create new course</Link>
+                                <Link to="/course/create">Create new course</Link>
                             </li>
                         )}
 
                         <li>
-                            <Link to="/courses">All Courses</Link>
+                            <button onClick={handleCourseClick} className="text-left">
+                                All Courses
+                            </button>
                         </li>
 
                         <li>
@@ -109,8 +119,8 @@ function HomeLayout({ children }) {
                                     <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
                                         <Link to="/user/profile">Profile</Link>
                                     </button>
-                                    <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>
-                                        <Link onClick={handleLogout}>Logout</Link>
+                                    <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full' onClick={handleLogout}>
+                                        Logout
                                     </button>
                                 </div>
                             </li>
@@ -119,7 +129,7 @@ function HomeLayout({ children }) {
                 </div>
             </div>
 
-            { children }
+            {children}
 
             <Footer />
         </div>
